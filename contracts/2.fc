@@ -21,11 +21,11 @@ int max(int x, int y) asm "MAX";
     int x2 = matrixB.tlen();
     int y2 = matrixB.at(0).tlen();
 
-    int N = 0;
-    int M = 0;
-    int L = 0;
-    if (x1 == x2) {
-        N = y1;
+    int N = x1;
+    int M = y2;
+    int L = y1;
+    {- if (x1 == y2) {
+        N = x2;
         M = y2;
         L = x1;
     } elseif (x1 == y2) {
@@ -41,6 +41,7 @@ int max(int x, int y) asm "MAX";
         M = y2;
         L = y1;
     }
+    -}
 
     tuple result = empty_tuple();
     int i = 0;
@@ -52,7 +53,7 @@ int max(int x, int y) asm "MAX";
             int sum = 0;
             int k = 0;
             repeat (L) {
-                sum += matrixA.at(i).at(k) * matrixA.at(k).at(j);
+                sum += matrixA.at(i).at(k) * matrixB.at(k).at(j);
                 k += 1;
             }
 
