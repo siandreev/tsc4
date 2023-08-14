@@ -31,8 +31,19 @@ describe('Task2', () => {
         });
     });
 
-    it('should deploy', async () => {
-        // the check is done inside beforeEach
-        // blockchain and task2 are ready to use
+    it('Should multiply', async () => {
+        const A = [
+            [1, 2],
+            [2, 1],
+            [3, 4]
+        ];
+        const B = [
+            [1, 2, 3],
+            [3, 2, 1],
+            [3, 2, 1],
+            [3, 2, 3],
+        ];
+        const res = await task2.getMultiply(A, B);
+        expect(res).toStrictEqual([[7,6,5],[5,6,7],[15,14,13]]);
     });
 });

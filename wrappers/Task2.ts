@@ -1,4 +1,4 @@
-import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode } from 'ton-core';
+import {Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode, Tuple} from 'ton-core';
 
 export type Task2Config = {};
 
@@ -25,5 +25,35 @@ export class Task2 implements Contract {
             sendMode: SendMode.PAY_GAS_SEPARATELY,
             body: beginCell().endCell(),
         });
+    }
+
+    async getMultiply(provider: ContractProvider, A: number[][], B: number[][]): Promise<number[][]> {
+        const res = await provider.get('matrix_multiplier', [
+            {type: 'tuple', items: A.map(row => ({
+                    type: 'tuple',
+                    items: row.map(value => ({ type: 'int', value: BigInt(value) }))
+                })
+            )},
+            {type: 'tuple', items: B.map(row => ({
+                        type: 'tuple',
+                        items: row.map(value => ({ type: 'int', value: BigInt(value) }))
+                    })
+                )},
+        ]);
+        const tuple = res.stack.readTuple();
+        const N = tuple.remaining;
+        const result = [];
+        for (let i = 0; i < N; i++) {
+            const colTuple = tuple.readTuple();
+            const col = [];
+            const M = colTuple.remaining;
+
+            for (let j = 0; j < M; j ++) {
+                col.push(colTuple.readNumber());
+            }
+            result.push(col);
+        }
+
+        return result;
     }
 }
