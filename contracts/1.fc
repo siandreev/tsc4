@@ -32,5 +32,5 @@ forall X -> (tuple, (X)) pop_back (tuple t) asm "UNCONS";
         }
     }
 
-    return null();
+    return begin_cell().end_cell();
 }
