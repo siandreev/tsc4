@@ -31,7 +31,19 @@ describe('Task1', () => {
         });
     });
 
-    it('should deploy', async () => {
+    it('Should work with simple cell', async () => {
+        const targetCell = beginCell().storeUint(239, 64).endCell();
+        const cell = beginCell()
+            .storeRef(targetCell)
+            .endCell();
+        const hash = BigInt('0x' + targetCell.hash().toString('hex'));
+        const res = await task1.getFindBranchByHash(hash, cell);
+
+
+        expect(res.equals(cell)).toBeTruthy();
+    });
+
+    it('Should work with nested cell', async () => {
         const targetCell = beginCell().storeUint(239, 64).storeRef(beginCell().storeUint(30, 32).endCell()).endCell();
         const cell = beginCell()
             .storeUint(1, 2)
@@ -46,15 +58,4 @@ describe('Task1', () => {
         expect(res.equals(targetCell)).toBeTruthy();
     });
 
-    it('should deploy 1', async () => {
-        const targetCell = beginCell().storeUint(239, 64).endCell();
-        const cell = beginCell()
-            .storeRef(targetCell)
-            .endCell();
-        const hash = BigInt('0x' + targetCell.hash().toString('hex'));
-        const res = await task1.getFindBranchByHash(hash, cell);
-
-
-        expect(res.equals(cell)).toBeTruthy();
-    });
 });
