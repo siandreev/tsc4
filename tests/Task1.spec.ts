@@ -40,7 +40,7 @@ describe('Task1', () => {
         const res = await task1.getFindBranchByHash(hash, cell);
 
 
-        expect(res.equals(cell)).toBeTruthy();
+        expect(res.equals(targetCell)).toBeTruthy();
     });
 
     it('Should work with nested cell', async () => {
