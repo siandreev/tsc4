@@ -6,10 +6,31 @@
   this branch should be returned. Return empty cell if the branch is not found.
 -}
 
+forall X -> int is_null (X x) asm "ISNULL";
+forall X -> (tuple, ()) push_back (tuple tail, X head) asm "CONS";
+forall X -> (tuple, (X)) pop_back (tuple t) asm "UNCONS";
+
+
 () recv_internal() {
 }
 
 ;; testable
 (cell) find_branch_by_hash(int hash, cell tree) method_id {
-  return begin_cell().end_cell();
+    tuple stack = null();
+    stack~push_back(tree);
+
+    while (~ stack.is_null()) {
+        cell c = stack~pop_back();
+        slice s = c.begin_parse();
+
+        if (c.cell_hash() == hash) {
+            return c;
+        }
+
+        repeat (s.slice_refs()) {
+            stack.push_back(s~load_ref());
+        }
+    }
+
+    return begin_cell().end_cell();
 }
