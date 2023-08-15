@@ -32,7 +32,17 @@ describe('Task5', () => {
     });
 
     it('should deploy', async () => {
-        // the check is done inside beforeEach
-        // blockchain and task5 are ready to use
+        const res = await task5.getFib(1, 3);
+        expect(res).toStrictEqual(['1', '1', '2']);
+    });
+
+    it('should deploy', async () => {
+        const res = await task5.getFib(201, 4);
+        expect(res).toStrictEqual([
+            '453973694165307953197296969697410619233826',
+            '734544867157818093234908902110449296423351',
+            '1188518561323126046432205871807859915657177',
+            '1923063428480944139667114773918309212080528'
+        ]);
     });
 });

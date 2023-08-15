@@ -18,6 +18,23 @@
 
 ;; testable
 (tuple) fibonacci_sequence (int n, int k) method_id {
-  return null();
+  int prev = 0;
+  int current = 1;
+  int index = 1;
+  tuple result = empty_tuple();
+
+  repeat (n + k - 1) {
+    if (index >= n) {
+      result~tpush(current);
+    }
+
+    int save_current = current;
+    current += prev;
+    prev = save_current;
+
+    index += 1;
+  }
+
+  return result;
 }
 
