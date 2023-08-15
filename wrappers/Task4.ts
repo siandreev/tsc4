@@ -1,4 +1,14 @@
-import { Address, beginCell, Cell, Contract, contractAddress, ContractProvider, Sender, SendMode } from 'ton-core';
+import {
+    Address,
+    beginCell,
+    Cell,
+    comment,
+    Contract,
+    contractAddress,
+    ContractProvider,
+    Sender,
+    SendMode
+} from 'ton-core';
 
 export type Task4Config = {};
 
@@ -25,5 +35,13 @@ export class Task4 implements Contract {
             sendMode: SendMode.PAY_GAS_SEPARATELY,
             body: beginCell().endCell(),
         });
+    }
+
+    async getEncrypt(provider: ContractProvider, shift: number, text: string) {
+        const res = await provider.get('caesar_cipher_encrypt', [
+            {type: 'int', value: BigInt(shift)},
+            {type: 'cell', cell: comment(text)}
+        ]);
+        return res.stack.readCell().beginParse().loadStringTail().slice(4);
     }
 }

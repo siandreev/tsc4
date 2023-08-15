@@ -1,5 +1,5 @@
 import { Blockchain, SandboxContract } from '@ton-community/sandbox';
-import { Cell, toNano } from 'ton-core';
+import {Cell, comment, toNano} from 'ton-core';
 import { Task4 } from '../wrappers/Task4';
 import '@ton-community/test-utils';
 import { compile } from '@ton-community/blueprint';
@@ -31,8 +31,8 @@ describe('Task4', () => {
         });
     });
 
-    it('should deploy', async () => {
-        // the check is done inside beforeEach
-        // blockchain and task4 are ready to use
+    it('should encrypt', async () => {
+        const res = await task4.getEncrypt(12, 'Attack at dawn!'.repeat(15));
+        expect(res).toBe('Mffmow mf pmiz!'.repeat(15));
     });
 });
