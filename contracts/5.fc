@@ -39,7 +39,7 @@
     result~tpush(current);
   }
 
-  while (index < n + k) {
+  repeat (n + k - 2) {
     int save_current = current;
     current += prev;
     prev = save_current;
