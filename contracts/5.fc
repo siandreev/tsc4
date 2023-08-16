@@ -23,6 +23,15 @@
   int index = 1;
   tuple result = empty_tuple();
 
+  if (k == 0) {
+    return result;
+  }
+
+  if (n + k == 1) {
+    result~tpush(current);
+    return result;
+  }
+
   repeat (n + k - 1) {
     if (index >= n) {
       result~tpush(current);
