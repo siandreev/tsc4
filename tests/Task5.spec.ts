@@ -65,4 +65,24 @@ describe('Task5', () => {
         const res = await task5.getFib(0, 3);
         expect(res).toStrictEqual(['0', '1', '1']);
     });
+
+    it('Only start num 4', async () => {
+        const res = await task5.getFib(1, 3);
+        expect(res).toStrictEqual(['1', '1', '2']);
+    });
+
+    it('Only start num 5', async () => {
+        const res = await task5.getFib(3, 1);
+        expect(res).toStrictEqual(['2']);
+    });
+
+    it('Only start num 6', async () => {
+        const res = await task5.getFib(3, 0);
+        expect(res).toStrictEqual([]);
+    });
+
+    it('Only start num 7', async () => {
+        const res = await task5.getFib(370, 1);
+        expect(res).toStrictEqual(['94611056096305838013295371573764256526437182762229865607320618320601813254535']);
+    });
 });

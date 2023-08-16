@@ -20,7 +20,7 @@
 (tuple) fibonacci_sequence (int n, int k) method_id {
   int prev = 0;
   int current = 1;
-  int index = 1;
+  int index = 2;
   tuple result = empty_tuple();
 
   if (k == 0) {
@@ -29,17 +29,24 @@
 
   if (n == 0) {
     result~tpush(prev);
-  }
 
-  repeat (n + k - 1) {
-    if (index >= n) {
+    if (k > 1) {
       result~tpush(current);
     }
+  }
 
+  if (n == 1) {
+    result~tpush(current);
+  }
+
+  repeat (n + k - 2) {
     int save_current = current;
     current += prev;
     prev = save_current;
 
+    if (index >= n) {
+      result~tpush(current);
+    }
     index += 1;
   }
 
