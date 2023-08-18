@@ -51,13 +51,13 @@ int are_slices_equal? (slice a, slice b) asm "SDEQ";
   tuple result = empty_tuple();
 
   while(true) {
-    slice next_bit = current_slice.preload_bits(1);
     if ((current_slice.slice_refs() == 0) & (current_slice.slice_bits() < flag_len)) {
       (current_builder, result) = store_slice_con(current_builder, current_slice, result);
       result~tpush(current_builder.end_cell());
       return result;
     }
 
+    slice next_bit = current_slice.preload_bits(1);
     (current_slice, int is_eq) = is_seq_eq?(current_slice, flag_s);
 
     ;; WRITE
@@ -96,6 +96,10 @@ int are_slices_equal? (slice a, slice b) asm "SDEQ";
     slice read_slice1 = current_slice.preload_bits(flag_len);
     is_eq = are_slices_equal?(read_slice1, flag_s);
     current_slice~skip_bits(is_eq ? flag_len : 1);
+
+    if ((current_slice.slice_bits() == 0) & (current_slice.slice_refs() != 0)) {
+      return (current_slice.preload_ref().begin_parse(), is_eq);
+    }
     return (current_slice, is_eq);
   }
 
@@ -104,6 +108,17 @@ int are_slices_equal? (slice a, slice b) asm "SDEQ";
 
   int bits_to_check_next = flag_len - slice_bits_left;
   slice next_slice = current_slice.preload_ref().begin_parse();
+
+  if (next_slice.slice_bits() < bits_to_check_next) {
+    if (slice_bits_left > 1) {
+      current_slice~skip_bits(1);
+    } else {
+      current_slice = next_slice;
+    }
+
+    return (current_slice, false);
+  }
+
   slice read_slice2 = next_slice.preload_bits(bits_to_check_next);
   is_eq = is_eq & are_slices_equal?(read_slice2, flag_s);
   ;;flag_s = flag_c.begin_parse();
