@@ -1,5 +1,5 @@
 import { Blockchain, SandboxContract } from '@ton-community/sandbox';
-import { Cell, toNano } from 'ton-core';
+import {beginCell, Cell, toNano} from 'ton-core';
 import { Task3 } from '../wrappers/Task3';
 import '@ton-community/test-utils';
 import { compile } from '@ton-community/blueprint';
@@ -31,8 +31,16 @@ describe('Task3', () => {
         });
     });
 
-    it('should deploy', async () => {
-        // the check is done inside beforeEach
-        // blockchain and task3 are ready to use
+    it('simple replace', async () => {
+        const flag = 0b101;
+        const value = 0b111;
+        const cell = 0b101000;
+        const list = beginCell().storeUint(cell, 256).endCell();
+        const result = await task3.getReplace(flag, value, list);
+
+        const expected =  beginCell().storeUint(0b111000, 256).endCell();
+        const c = result.readCell();
+
+        expect(c.equals(expected)).toBeTruthy();
     });
 });
