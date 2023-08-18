@@ -43,6 +43,18 @@ export class Task3 implements Contract {
             {type: 'int', value: BigInt(value)},
             {type: 'cell', cell: list}
         ]);
-        return res.stack.readTuple();
+        let cell: Cell | null = res.stack.readCell();
+        const result = [];
+        while (cell) {
+            result.push(cell);
+            const s = cell.beginParse();
+            if (s.remainingRefs) {
+                cell = s.loadRef();
+            } else {
+                cell = null;
+            }
+        }
+
+        return result;
     }
 }

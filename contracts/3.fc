@@ -29,6 +29,7 @@
 
 -}
 
+(int) tlen (tuple t) asm "TLEN";
 (int) ubitsize (int a) asm "UBITSIZE";
 int are_slices_equal? (slice a, slice b) asm "SDEQ";
 
@@ -36,7 +37,7 @@ int are_slices_equal? (slice a, slice b) asm "SDEQ";
 }
 
 ;; testable
-(tuple) find_and_replace(int flag, int value, cell linked_list) method_id {
+(cell) find_and_replace(int flag, int value, cell linked_list) method_id {
   int flag_len = ubitsize(flag);
   cell flag_c = begin_cell().store_uint(flag, flag_len).end_cell();
   slice flag_s = flag_c.begin_parse();
@@ -54,7 +55,7 @@ int are_slices_equal? (slice a, slice b) asm "SDEQ";
     if ((current_slice.slice_refs() == 0) & (current_slice.slice_bits() < flag_len)) {
       (current_builder, result) = store_slice_con(current_builder, current_slice, result);
       result~tpush(current_builder.end_cell());
-      return result;
+      return tuple_to_cell(result);
     }
 
     slice next_bit = current_slice.preload_bits(1);
@@ -68,7 +69,7 @@ int are_slices_equal? (slice a, slice b) asm "SDEQ";
     }
   }
 
-  return  result;
+  return  tuple_to_cell(result);
 }
 
 (builder, tuple) store_slice_con(builder b, slice s, tuple result) {
@@ -121,7 +122,6 @@ int are_slices_equal? (slice a, slice b) asm "SDEQ";
 
   slice read_slice2 = next_slice.preload_bits(bits_to_check_next);
   is_eq = is_eq & are_slices_equal?(read_slice2, flag_s);
-  ;;flag_s = flag_c.begin_parse();
 
   if (is_eq) {
     next_slice~skip_bits(bits_to_check_next);
@@ -135,4 +135,25 @@ int are_slices_equal? (slice a, slice b) asm "SDEQ";
   }
 
   return (current_slice, is_eq);
+}
+
+(cell) tuple_to_cell(tuple t) inline {
+  int len = t.tlen();
+  int i = len - 1;
+
+  cell tail = begin_cell().end_cell();
+
+  while (i >= 0) {
+    cell x = t.at(i);
+    builder b = begin_cell().store_slice(x.begin_parse());
+    if (i != len - 1) {
+      tail = b.store_ref(tail).end_cell();
+    } else {
+      tail = b.end_cell();
+    }
+
+    i = i - 1;
+  }
+
+  return tail;
 }

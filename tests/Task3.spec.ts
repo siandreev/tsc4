@@ -39,7 +39,7 @@ describe('Task3', () => {
         const result = await task3.getReplace(flag, value, list);
 
         const expected =  beginCell().storeUint(0b111000, 256).endCell();
-        const c = result.readCell();
+        const c = result[0];
 
         expect(c.equals(expected)).toBeTruthy();
     });
@@ -52,7 +52,7 @@ describe('Task3', () => {
         const result = await task3.getReplace(flag, value, list);
 
         const expected =  beginCell().storeUint(0b1110111, 256).endCell();
-        const c = result.readCell();
+        const c = result[0];
 
         expect(c.equals(expected)).toBeTruthy();
     });
@@ -65,7 +65,7 @@ describe('Task3', () => {
         const result = await task3.getReplace(flag, value, list);
 
         const expected =  beginCell().storeUint(0b111011101, 256).endCell();
-        const c = result.readCell();
+        const c = result[0];
 
         expect(c.equals(expected)).toBeTruthy();
     });
@@ -78,7 +78,7 @@ describe('Task3', () => {
         const result = await task3.getReplace(flag, value, list);
 
         const expected =  beginCell().storeUint(cell, 256).endCell();
-        const c = result.readCell();
+        const c = result[0];
 
         expect(c.equals(expected)).toBeTruthy();
     });
@@ -91,7 +91,7 @@ describe('Task3', () => {
         const result = await task3.getReplace(flag, value, list);
 
         const expected =  beginCell().storeUint(0b100100, 254).endCell();
-        const c = result.readCell();
+        const c = result[0];
 
         expect(c.equals(expected)).toBeTruthy();
     });
@@ -107,7 +107,7 @@ describe('Task3', () => {
         const result = await task3.getReplace(flag, value, list);
 
         const expected =  beginCell().storeUint(0b11101111110111, 14).endCell();
-        const c = result.readCell();
+        const c = result[0];
 
         expect(c.equals(expected)).toBeTruthy();
     });
@@ -123,7 +123,7 @@ describe('Task3', () => {
         const result = await task3.getReplace(flag, value, list);
 
         const expected =  beginCell().storeUint(0b1101111011, 10).endCell();
-        const c = result.readCell();
+        const c = result[0];
 
         expect(c.equals(expected)).toBeTruthy();
     });
@@ -139,7 +139,7 @@ describe('Task3', () => {
         const result = await task3.getReplace(flag, value, list);
 
         const expected =  beginCell().storeUint(0b11100111011101, 14).endCell();
-        const c = result.readCell();
+        const c = result[0];
 
         expect(c.equals(expected)).toBeTruthy();
     });
@@ -155,7 +155,7 @@ describe('Task3', () => {
         const result = await task3.getReplace(flag, value, list);
 
         const expected =  beginCell().storeUint(0b11001101101, 11).endCell();
-        const c = result.readCell();
+        const c = result[0];
 
         expect(c.equals(expected)).toBeTruthy();
     });
@@ -171,7 +171,7 @@ describe('Task3', () => {
         const result = await task3.getReplace(flag, value, list);
 
         const expected =  beginCell().storeUint(0b111001110, 9).endCell();
-        const c = result.readCell();
+        const c = result[0];
 
         expect(c.equals(expected)).toBeTruthy();
     });
@@ -186,7 +186,7 @@ describe('Task3', () => {
         const result = await task3.getReplace(flag, value, list);
 
         const expected =  beginCell().storeUint(0b1110010, 7).endCell();
-        const c = result.readCell();
+        const c = result[0];
 
         expect(c.equals(expected)).toBeTruthy();
     });
