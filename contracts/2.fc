@@ -16,14 +16,9 @@ int max(int x, int y) asm "MAX";
 
 ;; testable
 (tuple) matrix_multiplier(tuple matrixA, tuple matrixB) method_id {
-    int x1 = matrixA.tlen();
-    int y1 = matrixA.at(0).tlen();
-    int x2 = matrixB.tlen();
-    int y2 = matrixB.at(0).tlen();
-
-    int N = x1;
-    int M = y2;
-    int L = y1;
+    int N = matrixA.tlen();
+    int M = matrixB.at(0).tlen();
+    int L = matrixA.at(0).tlen();
 
     tuple result = empty_tuple();
     int i = 0;
